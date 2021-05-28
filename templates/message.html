@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-lg-9">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4 class="h5 text-muted">
+                    <strong>{{ filter_user.first_name }} {{ filter_user.surname }}</strong>
+                </h4>
+            </div>
+            <div class="card-body" style="height: 420px; overflow: scroll; width: auto;">
+                {% for msg in message %}
+                    {% if msg.sender_id.id == filter_user.id and msg.receiver_id.id == login_user.id %}
+                        <h4>
+                            <span class="badge text-dark px-3 badge-pill float-left badge-light">{{ msg.message }}</span>
+                        </h4><br>
+                        <label class="text-muted small p-0 m-0 float-left">{{ msg.date_time }}</label><br>
+                    {% endif %}
+                    {% if msg.sender_id.id == login_user.id and msg.receiver_id.id == filter_user.id %}
+                        <h4>
+                            <span class="badge text-white px-3 badge-pill float-right badge-info">{{ msg.message }}</span>
+                        </h4><br>
+                        <label class="text-muted small float-right p-0 m-0">{{ msg.date_time }}</label><br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="card-footer">
+                <form action="{% url 'send_message' filter_user.id %}" method="post" class="row">
+                    {% csrf_token %}
+                    <div class="form-group col-lg-11 pr-0">
+                        <textarea class="form-control" placeholder="Write message here..." name="message"></textarea>
+                    </div>
+                    <div class="form-group col-lg-1">
+                        <input type="submit" value="Send" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% block side %}
+        <div class="col-lg-3">
+            <div class="list-group">
+                {% for u in user %}
+                    <a href="{% url 'message' u.id %}" class="list-group-item list-group-item-action">{{ u.first_name }} {{ u.surname }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock %}
+
+{% endblock %}

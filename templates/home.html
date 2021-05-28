@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-lg-3">
+        <div class="list-group">
+            <a href="{% url 'private_profile' %}" class="list-group-item list-group-item-action">
+                <strong>Hello! {{ login_user.first_name }} {{ login_user.surname }}</strong>
+            </a>
+            <a href="{% url 'home' %}" class="list-group-item list-group-item-action">
+                <strong>Home</strong>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+                <strong>User</strong>
+            </a>
+            <a href="{% url 'msg' %}" class="list-group-item list-group-item-action">
+                <strong>Message</strong>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+                <strong>Notification</strong>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+                <strong>Setting</strong>
+            </a>
+            <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger list-group-item-action">
+                <strong><i class="fas fa-power-off"></i> LogOut</strong>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <form action="{% url 'post' %}" method="post">
+            {% csrf_token %}
+            <textarea rows="5" class="form-control" name="post_text" placeholder="What's on your mind, {{ login_user.first_name }}?"></textarea>
+            <input type="submit" value="Post" class="btn mt-2 btn-info">
+        </form>
+        {% for p in post %}
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>{{ p.user_id.first_name }} {{ p.user_id.surname }}</h5>
+                        </div>
+                        <div class="card-body">
+                            {{ p.post_desc }}
+                        </div>
+                        <div class="card-footer form-inline">
+                            <a href="{% url 'like_dislike' p.p_id %}" class="btn-danger btn px-5 mr-2">({{ p.likes_set.count }}) Like</a>
+                            <a href="" class="btn-success btn px-5 mr-2">Comment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% block side %}
+        {{ block.super }}
+    {% endblock %}
+{% endblock %}

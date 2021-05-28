@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-lg-9">
+        <div class="card">
+            <div class="card-body" style="height: 570px">
+                <h3 class="text-center text-muted mt-5" style="margin-top: 230px !important;">Welcome to the CrackChat Messenger</h3>
+            </div>
+        </div>
+    </div>
+    {% block side %}
+        <div class="col-lg-3">
+            <div class="list-group">
+                {% for u in user %}
+                    <a href="{% url 'message' u.id %}" class="list-group-item list-group-item-action">{{ u.first_name }} {{ u.surname }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock %}
+
+{% endblock %}

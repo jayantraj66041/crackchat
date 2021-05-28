@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-lg-9">
+        <div class="card col-lg-10 mx-auto">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-4 mx-auto">
+                        <div class="card" style="border-radius: 100%;">
+                            <img src="{{ filter_user.dp.url }}" class="card-img-top" style="height: 230px; border-radius: 100%;">
+                        </div>
+                    </div>
+                </div>
+                <h4 class="text-muted float-left">{{ filter_user.first_name }} {{ filter_user.surname }}</h4>
+                <a href="{% url 'message' filter_user.id %}" class="btn btn-primary float-right">Message</a>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="my-3 text-muted">
+                            <strong>Mobile No.:</strong>
+                            {{ filter_user.mobile }}
+                        </h6>
+                        <h6 class="my-3 text-muted">
+                            <strong>Email:</strong>
+                            {{ filter_user.email }}
+                        </h6>
+                        <h6 class="my-3 text-muted">
+                            <strong>DOB:</strong>
+                            {{ filter_user.date_of_birth }}
+                        </h6>
+                        <h6 class="my-3 text-muted">
+                            <strong>Gender:</strong>
+                            {{ filter_user.gender }}
+                        </h6>
+                        <h6 class="my-3 text-muted">
+                            <strong>City:</strong>
+                            {{ filter_user.city }}
+                        </h6>
+                        <h6 class="my-3 text-muted">
+                            <strong>State:</strong>
+                            {{ filter_user.state }}
+                        </h6>
+                        <h6 class="my-3 text-muted">
+                            <strong>Language:</strong>
+                            {{ filter_user.language }}
+                        </h6>
+                        <h6 class="my-3 text-muted">
+                            <strong>Joined on:</strong>
+                            {{ filter_user.date_of_creation }}
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                {% for p in post %}
+                    <div class="row mt-3">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="float-left">{{ p.user_id.first_name }} {{ p.user_id.surname }}</h5>
+                                </div>
+                                <div class="card-body">
+                                    {{ p.post_desc }}
+                                </div>
+                                <div class="card-footer form-inline">
+                                    <a href="" class="btn-danger btn px-5 mr-2">Like</a>
+                                    <a href="" class="btn-success btn px-5 mr-2">Comment</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% block side %}
+        {{ block.super }}
+    {% endblock %}
+{% endblock %}
